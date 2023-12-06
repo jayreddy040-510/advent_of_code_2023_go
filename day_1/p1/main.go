@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	f, err := os.Open("/Users/jayreddy/advent_of_code_2023_go/day_1/puzzle_input.txt")
+	f, err := os.Open("../puzzle_input.txt")
 	defer f.Close()
 	if err != nil {
 		log.Fatalf("error opening puzzle input: %v", err)
