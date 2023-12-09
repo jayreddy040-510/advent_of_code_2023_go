@@ -22,7 +22,7 @@ var stringToDigitMapping = map[string]string{
 }
 
 func PuzzleOne() {
-	f, err := os.Open("../puzzle_input.txt")
+	f, err := os.Open("puzzle_input.txt")
 	defer f.Close()
 	if err != nil {
 		log.Fatalf("error opening puzzle input: %v", err)
@@ -66,7 +66,7 @@ func PuzzleOne() {
 }
 
 func PuzzleTwo() {
-	f, err := os.Open("../puzzle_input.txt")
+	f, err := os.Open("puzzle_input.txt")
 	defer f.Close()
 	if err != nil {
 		log.Fatalf("error reading file: %v", err)
@@ -119,13 +119,14 @@ func reverseBytes(b []byte) []byte {
 }
 
 func PuzzleTwoReverseString() {
-	f, err := os.Open("../puzzle_input.txt")
+	f, err := os.Open("puzzle_input.txt")
 	defer f.Close()
 	if err != nil {
 		log.Fatalf("error reading file: %v", err)
 	}
 	var sum int
 	re := regexp.MustCompile(`(one|two|three|four|five|six|seven|eight|nine|[1-9])`)
+	backwardsRe := regexp.MustCompile(`(eno|owt|eerht|ruof|evif|xis|neves|thgie|enin|[1-9])`)
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		ln := scanner.Text()
@@ -135,7 +136,7 @@ func PuzzleTwoReverseString() {
 			continue
 		}
 		reverseLn := reverseString(ln)
-		backNum := re.FindString(reverseLn)
+		backNum := backwardsRe.FindString(reverseLn)
 		if len(frontNum) > 1 {
 			frontNum = stringToDigitMapping[frontNum]
 		}
@@ -152,13 +153,14 @@ func PuzzleTwoReverseString() {
 }
 
 func PuzzleTwoReverseBytes() {
-	f, err := os.Open("../puzzle_input.txt")
+	f, err := os.Open("puzzle_input.txt")
 	defer f.Close()
 	if err != nil {
 		log.Fatalf("error reading file: %v", err)
 	}
 	var sum int
 	re := regexp.MustCompile(`(one|two|three|four|five|six|seven|eight|nine|[1-9])`)
+	backwardsRe := regexp.MustCompile(`(eno|owt|eerht|ruof|evif|xis|neves|thgie|enin|[1-9])`)
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		b := scanner.Bytes()
@@ -168,8 +170,9 @@ func PuzzleTwoReverseBytes() {
 			log.Printf("could not find digit in line: %v", b)
 			continue
 		}
-		reverseBytes := reverseBytes(b)
-		backNumBytes := re.Find(reverseBytes)
+		rb := reverseBytes(b)
+		backNumBytes := backwardsRe.Find(rb)
+		backNumBytes = reverseBytes(backNumBytes)
 		backNum := string(backNumBytes)
 		if len(frontNum) > 1 {
 			if _, ok := stringToDigitMapping[frontNum]; ok {
