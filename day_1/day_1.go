@@ -65,7 +65,7 @@ func PuzzleOne() {
 	fmt.Printf("total sum is %d", sum)
 }
 
-func PuzzleTwo() {
+func OldPuzzleTwo() {
 	f, err := os.Open("puzzle_input.txt")
 	defer f.Close()
 	if err != nil {
@@ -100,7 +100,40 @@ func PuzzleTwo() {
 		}
 		sum += num
 	}
-	log.Printf("final sum is %d", sum)
+	// log.Printf("final sum is %d", sum)
+}
+
+func PuzzleTwo() {
+	f, err := os.Open("puzzle_input.txt")
+	if err != nil {
+		log.Fatalf("cant open puzzle_input.txt: %v", err)
+	}
+	scanner := bufio.NewScanner(f)
+	re := regexp.MustCompile(`(one|two|three|four|five|six|seven|eight|nine|[1-9])`)
+	var sum int
+	for scanner.Scan() {
+		b := scanner.Bytes()
+		matches := re.FindAll(b, -1)
+		frontNumBytes, backNumBytes := matches[0], matches[len(matches)-1]
+		var frontNum, backNum string
+		if len(frontNumBytes) > 1 {
+			frontNum = stringToDigitMapping[string(frontNumBytes)]
+		} else {
+			frontNum = string(frontNumBytes)
+		}
+		if len(backNumBytes) > 1 {
+			backNum = stringToDigitMapping[string(backNumBytes)]
+		} else {
+			backNum = string(backNumBytes)
+		}
+		//	log.Printf("ln: %v\nfrontNum: %v\nbackNum: %v", string(b), frontNum, backNum)
+		num, err := strconv.Atoi(frontNum + backNum)
+		if err != nil {
+			log.Fatalf("error converting number in line to string: %v", err)
+		}
+		sum += num
+	}
+	log.Printf("sum is %d", sum)
 }
 
 func reverseString(s string) string {
@@ -136,7 +169,8 @@ func PuzzleTwoReverseString() {
 			continue
 		}
 		reverseLn := reverseString(ln)
-		backNum := backwardsRe.FindString(reverseLn)
+		backNumString := backwardsRe.FindString(reverseLn)
+		backNum := reverseString(backNumString)
 		if len(frontNum) > 1 {
 			frontNum = stringToDigitMapping[frontNum]
 		}
@@ -149,7 +183,7 @@ func PuzzleTwoReverseString() {
 		}
 		sum += num
 	}
-	log.Printf("final sum is %d", sum)
+	// log.Printf("final sum is %d", sum)
 }
 
 func PuzzleTwoReverseBytes() {
@@ -191,5 +225,5 @@ func PuzzleTwoReverseBytes() {
 		}
 		sum += num
 	}
-	log.Printf("final sum is %d", sum)
+	// log.Printf("final sum is %d", sum)
 }
