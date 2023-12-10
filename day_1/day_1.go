@@ -111,11 +111,10 @@ func reverseString(s string) string {
 	return string(runeSlice)
 }
 
-func reverseBytes(b []byte) []byte {
+func reverseBytes(b []byte) {
 	for i, j := 0, len(b)-1; i < j; i, j = i+1, j-1 {
 		b[i], b[j] = b[j], b[i]
 	}
-	return b
 }
 
 func PuzzleTwoReverseString() {
@@ -171,9 +170,9 @@ func PuzzleTwoReverseBytes() {
 			log.Printf("could not find digit in line: %v", b)
 			continue
 		}
-		rb := reverseBytes(b)
-		backNumBytes := backwardsRe.Find(rb)
-		backNumBytes = reverseBytes(backNumBytes)
+		reverseBytes(b)
+		backNumBytes := backwardsRe.Find(b)
+		reverseBytes(backNumBytes)
 		backNum := string(backNumBytes)
 		if len(frontNum) > 1 {
 			if _, ok := stringToDigitMapping[frontNum]; ok {
