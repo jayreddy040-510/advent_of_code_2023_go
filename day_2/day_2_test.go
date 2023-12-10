@@ -8,3 +8,10 @@ func BenchmarkPuzzleOne(b *testing.B) {
 		PuzzleOne()
 	}
 }
+
+func BenchmarkPuzzleTwo(b *testing.B) {
+	b.ReportAllocs()
+	for i := 0; i < b.N; i++ {
+		PuzzleTwo()
+	}
+}
