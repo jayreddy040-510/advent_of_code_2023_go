@@ -23,10 +23,10 @@ var stringToDigitMapping = map[string]string{
 
 func PuzzleOne() {
 	f, err := os.Open("puzzle_input.txt")
-	defer f.Close()
 	if err != nil {
 		log.Fatalf("error opening puzzle input: %v", err)
 	}
+	defer f.Close()
 	scanner := bufio.NewScanner(f)
 	var sum int
 	for scanner.Scan() {
@@ -67,10 +67,10 @@ func PuzzleOne() {
 
 func OldPuzzleTwo() {
 	f, err := os.Open("puzzle_input.txt")
-	defer f.Close()
 	if err != nil {
 		log.Fatalf("error reading file: %v", err)
 	}
+	defer f.Close()
 	var sum int
 	re := regexp.MustCompile(`(one|two|three|four|five|six|seven|eight|nine|[1-9])`)
 	scanner := bufio.NewScanner(f)
@@ -119,10 +119,10 @@ func reverseBytes(b []byte) {
 
 func PuzzleTwoReverseString() {
 	f, err := os.Open("puzzle_input.txt")
-	defer f.Close()
 	if err != nil {
 		log.Fatalf("error reading file: %v", err)
 	}
+	defer f.Close()
 	var sum int
 	re := regexp.MustCompile(`(one|two|three|four|five|six|seven|eight|nine|[1-9])`)
 	backwardsRe := regexp.MustCompile(`(eno|owt|eerht|ruof|evif|xis|neves|thgie|enin|[1-9])`)
@@ -154,10 +154,10 @@ func PuzzleTwoReverseString() {
 
 func PuzzleTwoReverseBytes() {
 	f, err := os.Open("puzzle_input.txt")
-	defer f.Close()
 	if err != nil {
 		log.Fatalf("error reading file: %v", err)
 	}
+	defer f.Close()
 	var sum int
 	re := regexp.MustCompile(`(one|two|three|four|five|six|seven|eight|nine|[1-9])`)
 	backwardsRe := regexp.MustCompile(`(eno|owt|eerht|ruof|evif|xis|neves|thgie|enin|[1-9])`)

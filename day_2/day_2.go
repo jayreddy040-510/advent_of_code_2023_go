@@ -11,38 +11,37 @@ import (
 
 func PuzzleOne() {
 	f, err := os.Open("puzzle_input.txt")
-	defer f.Close()
 	if err != nil {
 		log.Fatalf("could not read input file: %v", err)
 	}
+	defer f.Close()
 	scanner := bufio.NewScanner(f)
-	re := regexp.MustCompile(`(\d+\s{1}red|\d+\s{1}blue|\d+\s{1}green)`)
+	re := regexp.MustCompile(`(\d+)\s{1}(\w+)`)
 	var sum int
 	for scanner.Scan() {
 		var limitFlag bool
 		ln := scanner.Text()
 		colonSplitStrings := strings.Split(ln, ":")
-		cubesSlice := re.FindAllString(colonSplitStrings[1], -1)
-		log.Printf("cubeSlice: %v", cubesSlice)
+		cubesSlice := re.FindAllStringSubmatch(colonSplitStrings[1], -1)
+		// log.Printf("cubeSlice: %v", cubesSlice)
 		for _, cube := range cubesSlice {
-			eachCube := strings.Split(cube, " ")
-			num, err := strconv.Atoi(eachCube[0])
+			num, err := strconv.Atoi(cube[1])
 			if err != nil {
 				log.Fatalf("erro converting str to num: %v", err)
 			}
-			if eachCube[1] == "red" && num > 12 {
+			if cube[2] == "red" && num > 12 {
 				limitFlag = true
 				break
-			} else if eachCube[1] == "green" && num > 13 {
+			} else if cube[2] == "green" && num > 13 {
 				limitFlag = true
 				break
-			} else if eachCube[1] == "blue" && num > 14 {
+			} else if cube[2] == "blue" && num > 14 {
 				limitFlag = true
 				break
 			}
 		}
 		if !limitFlag {
-			gameStringsArray := strings.Split(colonSplitStrings[0], " ")
+			gameStringsArray := strings.Fields(colonSplitStrings[0])
 			gameNum, err := strconv.Atoi(gameStringsArray[1])
 			if err != nil {
 				log.Fatalf("error converting game str to num: %v", err)
